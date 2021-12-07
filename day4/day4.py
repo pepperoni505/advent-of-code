@@ -4,9 +4,7 @@ with open(os.path.join(os.path.dirname(__file__), 'input.txt'), 'r') as f:
     file_data = f.read().splitlines()
 
 # Get order of numbers to draw
-draw_numbers = file_data[0].split(",")
-# Convert to ints
-draw_numbers = list(map(int, draw_numbers))
+draw_numbers = list(map(int, file_data[0].split(",")))
 
 # Get all boards
 def getBoards():
