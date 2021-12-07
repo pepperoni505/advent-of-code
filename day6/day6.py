@@ -5,7 +5,6 @@ def getInput():
         data = f.read().splitlines()
     return data
 
-
 def simulateGlowfish(days):
     data = list(map(int, getInput()[0].split(",")))
     glowfish = {} # Use a dictionary to keep track of how many glowfish we have for each age. Better for memory than using a list
