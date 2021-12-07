@@ -51,7 +51,6 @@ def getIntersects(lineTypes): # lineTypes can have "vertical", "horizontal", and
 
     return intersects
 
-        
 # Part 1
 print("Part 1: " + str(getIntersects(["vertical", "horizontal"])))
 

@@ -6,45 +6,44 @@ def getInput():
     return data
 
 
-class Lanternfish:
-
-    def __init__(self, internal_timer):
-        self.internal_timer = internal_timer
-        self.children = []
-
-    def createNewLanternfish(self):
-        newFish = Lanternfish(8)
-        self.children.append(newFish)
-
-    def tick(self):
-        if self.internal_timer == 0:
-            self.internal_timer = 6
-            self.createNewLanternfish()
+def simulateGlowfish(days):
+    data = list(map(int, getInput()[0].split(",")))
+    glowfish = {} # Use a dictionary to keep track of how many glowfish we have for each age. Better for memory than using a list
+    for i in data:
+        if i not in glowfish:
+            glowfish[i] = 1
         else:
-            self.internal_timer -= 1
+            glowfish[i] += 1
 
-    def getChildren(self):
-        children = self.children
-        for child in self.children:
-            children.extend(child.getChildren())
+    for i in range(days):
+        newGlowfish = {}
+        for _, (timer, fishes) in enumerate(glowfish.items()):
+            # print(age, fishes)
+            if timer == 0:
+                # Reset timer
+                if 6 in newGlowfish:
+                    newGlowfish[6] += fishes
+                else:
+                    newGlowfish[6] = fishes
 
-        return children
+                # Spawn new fishes
+                if 8 in newGlowfish:
+                    newGlowfish[8] += fishes
+                else:
+                    newGlowfish[8] = fishes
+            else:
+                # Remove 1 from timer
+                if timer - 1 in newGlowfish:
+                    newGlowfish[timer - 1] += fishes
+                else:
+                    newGlowfish[timer - 1] = fishes
+        
+        glowfish = newGlowfish
 
+    return sum(glowfish.values())
 
+# Part 1
+print("Part 1: " + str(simulateGlowfish(80)))
 
-ages = list(map(int, getInput()[0].split(",")))
-
-lantenfishes = []
-for age in ages:
-    fish = Lanternfish(age)
-    lantenfishes.append(fish)
-
-for i in range(17):
-    for fish in lantenfishes:
-        fish.tick()
-
-total_fish = 0
-for fish in lantenfishes:
-    total_fish += len(fish.getChildren())
-
-print(total_fish)
+# Part 2
+print("Part 2: " + str(simulateGlowfish(256)))
